@@ -1,9 +1,71 @@
 import 'package:flutter/material.dart';
+import 'profile_page.dart';
+import 'settings_page.dart';
 
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter layout: Nama dan NIM Anda',
+      debugShowCheckedModeBanner: false,
+      home: const MainNavigation(),
+    );
+  }
+}
+
+class MainNavigation extends StatefulWidget {
+  const MainNavigation({super.key});
+
+  @override
+  State<MainNavigation> createState() => _MainNavigationState();
+}
+
+class _MainNavigationState extends State<MainNavigation> {
+  int _currentIndex = 0;
+
+  final List<Widget> _pages = [
+    const HomePage(),
+    const ProfilePage(),
+    const SettingsPage(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _pages[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// HomePage (kode Anda yang sudah ada)
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
   
   @override
   Widget build(BuildContext context) {
@@ -18,14 +80,14 @@ class MyApp extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: const Text(
-                    'Telkom University',
+                    'Pizza is M',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 Text(
-                  'Jl. Telekomunikasi Terusan Buah Batu\nSukapura Kota | Bandung, Indonesia',
+                  'Jl. Mawar Indah No. 27, Cirebon, Jawa Barat 45112',
                   style: TextStyle(
                     color: Colors.grey[500],
                   ),
@@ -48,7 +110,7 @@ class MyApp extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         _buildButtonColumn(color, Icons.call, 'CALL'),
-        _buildButtonColumn(color, Icons.near_me, 'ROUTE'),
+        _buildButtonColumn(color, Icons.near_me, 'LOCATION'),
         _buildButtonColumn(color, Icons.share, 'SHARE'),
       ],
     );
@@ -56,40 +118,31 @@ class MyApp extends StatelessWidget {
     Widget textSection = Container(
       padding: const EdgeInsets.all(32),
       child: const Text(
-        'Carilah teks di internet yang sesuai '
-        'dengan foto atau tempat wisata yang ingin '
-        'Anda tampilkan. '
-        'Tambahkan nama dan NIM Anda sebagai '
-        'identitas hasil pekerjaan Anda. '
-        'Selamat mengerjakan  😄⭐. ',
+        'Pizza Is M – Pizza ukuran medium dengan topping melimpah, rasa maksimal, dan harga ramah! Pas untuk sharing, pas juga untuk sendiri. Nikmati lezatnya dalam setiap gigitan!',
         softWrap: true,
       ),
     );
 
-    return MaterialApp(
-      title: 'Flutter layout: Nama dan NIM Anda',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Flutter layout demo'),
-        ),
-        body: Column(
-          children: [
-            Image.asset(
-              'assets/images/tult.jpg',
-              width: 600,
-              height: 240,
-              fit: BoxFit.cover,
-            ),
-            titleSection,
-            buttonSection,
-            textSection,
-          ],
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Pizza Is M'),
+      ),
+      body: ListView(
+        children: [
+          Image.asset(
+            'assets/images/pizza.jpeg',
+            width: 600,
+            height: 240,
+            fit: BoxFit.cover,
+          ),
+          titleSection,
+          buttonSection,
+          textSection,
+        ],
       ),
     );
   }
 
-  // Method _buildButtonColumn
   Column _buildButtonColumn(Color color, IconData icon, String label) {
     return Column(
       mainAxisSize: MainAxisSize.min,
